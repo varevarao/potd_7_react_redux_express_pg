@@ -20,6 +20,10 @@ The express app uses a **create-react-app** (by [the facebook team](https://gith
         $ heroku git:remote -a <YOUR-APP-NAME>
         ```
     - This will add your app as a remote git repo that you can push code to, and automatically deploy
+- This app is ready to be deployed to Heroku. It uses a PostgresSQL DB instead of MySQL, as Heroku natively supports Postgres, and offers it free for hobby-dev, out of the box. As the SQL syntax is largely similar, we can approximate the DB implementation.
+- Go to your [app dashboard](https://dashboard.heroku.com), and select the app you're using for deployment. In the overview, there would be a tab named, 'Resources', visit that.
+- This tab contains configuration for additional items required by our app (eg database). Under the Add-ons section, type in Postgres, and select the autocompleted option: 'Heroku Postgres'. This requires neither billing set up, nor a credit card. Click 'Provision' on the pop-up, and proceed.
+- This will automatically setup an environment variable named `DATABASE_URL` within the app, which can be used to make the DB connection.
 
 ### App
 This is an npm based build configuration, which uses the `package.json` file to reference the commands, and dependencies to build the app
