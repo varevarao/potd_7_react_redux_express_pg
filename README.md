@@ -1,6 +1,6 @@
 # Toolcity
 The app is setup using an **Express.js server**, running at port (process.env.PORT) 300 by default.  
-The express app uses a **JSX view engine** (by [the react team](https://github.com/reactjs/express-react-views)), in order to simplify the process of returning a React.js app, as well as supporting API routes on the same server.
+The express app uses a **create-react-app** (by [the facebook team](https://github.com/facebook/create-react-app)) based app, in order to simplify the process of returning a compiled React.js app, as well as supporting API routes on the same server.
 
 ## Setup
 ### Heroku
@@ -27,9 +27,17 @@ This is an npm based build configuration, which uses the `package.json` file to 
     ```
     $ npm install
     ```
+- To build the react app (in case of changes)
+    ```
+    $ npm build
+    ```
 - To run the server locally (in development mode)
     ```
     $ npm run dev
+    ```
+- To run the server locally (in development mode)
+    ```
+    $ npm start
     ```
 
 ## Deployment
@@ -41,7 +49,8 @@ $ git push heroku master
 
 ## Flow of control
 - `bin/www` is the app's **entry point**. Here all the *server configurations* are set up, and the server is started
-- `server.js` contains the **app setup**, and is directly called by `bin/www`. Here the *Express.js app is configured*, and all the URL handlers are setup
+- `server.js` contains the **app setup**, and is directly called by `bin/www`. Here the *Express.js app is configured*, and all the URL handlers are setup. This is also where all requests to *non-api* paths are redirected to the `public/index.html` file
 - `routes/` contains the URL handlers
-  - `routes/api.js` contains the routing logic for all backend API calls, and calls the corresponding handler under the `api/` folder
-  - `routes/index.js` contains the routing for the UI calls, and finds the corresponding React UI under the `app/` folder
+  - `routes/index.js` contains the routing logic for all backend API calls, and calls the corresponding handler under the `api/` folder
+- `app/` contains the main React.js app
+    - When `npm build` is run, the react app under `app/` is built, and its ouput is cpoied into the `public/` folder. A react app's main **entry point** is *index.html*, so we need to redirect any *non-api* requests to the index.html file to allow react to handle it
