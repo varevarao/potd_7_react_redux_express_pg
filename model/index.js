@@ -5,14 +5,14 @@ const models = [
 ]
 
 module.exports = {
-    initialize: () => {
+    initialize: async () => {
         const initPromises = [];
+        const i = 0;
+
         for (let model of models) {
             if ('init' in model && typeof model['init'] === 'function') {
-                initPromises.push(model['init']());
+                await model['init']();
             }
         }
-
-        return Promise.all(initPromises);
     }
 }

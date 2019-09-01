@@ -4,7 +4,7 @@ module.exports = {
     init: () => {
         return db.query(`
             CREATE TABLE IF NOT EXISTS products (
-                id INTEGER AUTO_INCREMENT NOT NULL,
+                id SERIAL,
                 title VARCHAR(45) NOT NULL,
                 description VARCHAR(500) NOT NULL,
                 quantity INTEGER NOT NULL,
