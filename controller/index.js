@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET api base listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const userController = require('./user');
+const productController = require('./product');
+const rentalController = require('./rental');
+
+router.use('/user', userController);
+router.use('/product', productController);
+router.use('/rental', rentalController);
 
 module.exports = router;

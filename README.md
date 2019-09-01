@@ -54,7 +54,10 @@ $ git push heroku master
 ## Flow of control
 - `bin/www` is the app's **entry point**. Here all the *server configurations* are set up, and the server is started
 - `server.js` contains the **app setup**, and is directly called by `bin/www`. Here the *Express.js app is configured*, and all the URL handlers are setup. This is also where all requests to *non-api* paths are redirected to the `public/index.html` file
-- `routes/` contains the URL handlers
-  - `routes/index.js` contains the routing logic for all backend API calls, and calls the corresponding handler under the `api/` folder
-- `app/` contains the main React.js app
+- The rest follows the MVC pattern;
+- `model/` contains the database setup, and the model corresponding to each DB table
+- `view/` contains the main React.js app
     - When `npm build` is run, the react app under `app/` is built, and its ouput is cpoied into the `public/` folder. A react app's main **entry point** is *index.html*, so we need to redirect any *non-api* requests to the index.html file to allow react to handle it
+- `controller/` contains the URL handlers
+  - `controller/index.js` contains the routing logic for all backend API calls, and calls the corresponding handler under the `controller/` folder
+- `services/` contains app services, which act as a middle-man between the controller and the model. They contain the main business logic, and this file structure helps separate request handling (controllers) from data manipulation (services)
