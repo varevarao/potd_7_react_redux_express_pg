@@ -6,6 +6,22 @@ const jwt = require('jsonwebtoken');
 
 const BCRYPT_SALT_ROUNDS = 5;
 
+const validateUserGetToken = async (email, password) => {
+    const existing = await users.fetchEmail(email);
+    if (!!existing) {
+        const { id, email, password: hashed } = existing;
+        const valid = bcrypt.compare(password, hashed);
+
+        if (valid) {
+            return jwt.sign({ id, email }, (process.env.JWT_SECRET || 'd3f@u1t%2053cr3t'));
+        } else {
+            return null;
+        }
+    } else {
+        return null;
+    }
+}
+
 module.exports = {
     exists: async email => {
         const existing = await users.fetchEmail(email);
@@ -13,19 +29,7 @@ module.exports = {
     },
 
     generateToken: async (email, password) => {
-        const existing = await users.fetchEmail(email);
-        if (!!existing) {
-            const { id, email, password: hashed } = existing;
-            const valid = bcrypt.compare(password, hashed);
-
-            if (valid) {
-                return jwt.sign({ id, email }, (process.env.JWT_SECRET || 'd3f@u1t%2053cr3t'));
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return await validateUserGetToken(email, password)
     },
 
     createNew: async metaData => {
@@ -41,7 +45,7 @@ module.exports = {
             })
 
             if (done) {
-                return await this.generateToken(email, password);
+                return await validateUserGetToken(email, password);
             } else {
                 return null;
             }

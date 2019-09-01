@@ -8,7 +8,7 @@ module.exports = {
                 firstName VARCHAR(45) NOT NULL,
                 lastName VARCHAR(45) NOT NULL,
                 email VARCHAR(45) NOT NULL,
-                password VARCHAR(45) NOT NULL,
+                password VARCHAR(70) NOT NULL,
                 primary key(id)
             )
         `).catch(err => {
@@ -17,7 +17,7 @@ module.exports = {
     },
 
     fetchID: id => {
-        return db.one({
+        return db.oneOrNone({
             text: `
                 SELECT * FROM users WHERE id = $1
             `,
@@ -29,7 +29,7 @@ module.exports = {
     },
 
     fetchEmail: email => {
-        return db.one({
+        return db.oneOrNone({
             text: `
                 SELECT * FROM users WHERE email = $1
             `,
@@ -47,12 +47,12 @@ module.exports = {
                 VALUES (
                     $1, $2, $3, $4
                 )
+                RETURNING id
             `,
             values: [firstName, lastName, email, password]
-        }).then((data) => {
-            console.info('New user', data);
+        }).then(({ id }) => {
             // Success
-            return data.id;
+            return id;
         }).catch(err => {
             console.error('Error inserting new user', err);
             return false;

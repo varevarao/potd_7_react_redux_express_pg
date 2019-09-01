@@ -31,6 +31,7 @@ const ERRORS = {
  * }
  */
 router.post('/register', async function (req, res) {
+    console.log('Incoming body', JSON.stringify(req.body));
     const { email, fName: firstName, lName: lastName, password } = req.body;
 
     // Check if the email is already registered

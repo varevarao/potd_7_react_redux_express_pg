@@ -47,12 +47,13 @@ module.exports = {
                 VALUES (
                     $1, $2, $3
                 )
+                RETURNING id
             `,
             values: [userId, productId, quantity]
-        }).then((data) => {
-            console.log('New rental', data);
+        }).then(({ id }) => {
+
             // Success
-            return data.id;
+            return id;
         }).catch(err => {
             console.error('Error inserting new product', err);
             return false;
@@ -60,7 +61,7 @@ module.exports = {
     },
 
     updateStatus: ({ id, userId, status }) => {
-        return db.one({
+        return db.none({
             text: `
                 UPDATE rentals
                 SET status = $1

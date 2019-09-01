@@ -17,7 +17,7 @@ module.exports = {
     },
 
     fetchID: id => {
-        return db.one({
+        return db.oneOrNone({
             text: `
                 SELECT * FROM products WHERE id = $1
             `,
@@ -55,12 +55,13 @@ module.exports = {
                 VALUES (
                     $1, $2, $3, $4
                 )
+                RETURNING id
             `,
             values: [userId, title, description, quantity]
-        }).then((data) => {
-            console.info('New product', data);
+        }).then(({ id }) => {
+
             // Success
-            return data.id;
+            return id;
         }).catch(err => {
             console.error('Error inserting new product', err);
             return false;
