@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "NODE_ENV=development DEBUG=toolcity:* node ./bin/www",
-    "build": "cd view && NODE_ENV=production npm run build && cp -R build/ ../public/",
+    "build": "cd view && npm install && NODE_ENV=production npm run build && cp -R build/ ../public/",
     "start": "NODE_ENV=production node ./bin/www"
   },
   "dependencies": {
