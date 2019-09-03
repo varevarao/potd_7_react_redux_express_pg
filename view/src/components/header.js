@@ -28,7 +28,7 @@ class Header extends Component {
         return (
             <AppBar className="header" position="sticky">
                 <Toolbar>
-                    <div className="header-start">
+                    <div className="logo-text">
                         <span className="p1">Toolo</span>
                         <span className="p2">city</span>
                     </div>

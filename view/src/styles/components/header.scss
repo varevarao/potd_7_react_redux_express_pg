@@ -8,22 +8,6 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-
-        span {
-            font-size: 1.5rem;
-
-            &.p1 {
-                font-weight: 500;
-                color: white;
-                background-color: green;
-            }
-    
-            &.p2 {
-                font-weight: 900;
-                color: crimson;
-                background-color: transparent;
-            }
-        }
     }
 
     .header-end {

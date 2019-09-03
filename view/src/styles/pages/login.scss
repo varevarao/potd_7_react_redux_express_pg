@@ -4,9 +4,54 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
+    background-color: green;;
 
     .login-card {
+        background-color: whitesmoke;
+
         min-height: 30vh;
         min-width: 30vw;
+
+        .login-error {
+            background-color: firebrick;
+            color: white;
+            font-size: 1rem;
+            font-weight: 100;
+        }
+
+        .login-actions {
+            text-align: left;
+
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+
+            > button {
+                flex: 1;
+                background-color: crimson;
+                color: white;
+                font-weight: 900;
+            }
+
+            > div {
+                font-size: 0.7rem;
+                line-height: 0.7rem;
+
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+
+                > button {
+                    font-size: 0.7rem;
+
+                    &:hover {
+                        background: transparent;
+                    }
+                }
+            }
+        }
     }
 }

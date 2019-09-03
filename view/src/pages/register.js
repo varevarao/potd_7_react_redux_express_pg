@@ -1,4 +1,4 @@
-import { Card, CardContent, FormControl, Input, InputLabel, FormGroup } from '@material-ui/core';
+import { Card, CardContent, FormControl, Input, InputLabel, FormGroup, Button, CardActions } from '@material-ui/core';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import AuthenticationService from '../services/authentication-service';
@@ -48,33 +48,52 @@ class Register extends Component {
             });
     }
 
+    performRedirect(path) {
+        const { history } = this.props;
+        history.push(`/${path}`);
+    }
+
     render() {
         const { error, fName, lName, email, password } = this.state;
         return (
             <div className="login-container">
+                <div className="logo-text">
+                    <span className="p1">Toolo</span>
+                    <span className="p2">city</span>
+                </div>
                 <Card className="login-card">
                     <CardContent>
                         {error && <div className="login-error">{error}</div>}
                         <FormGroup>
                             <FormControl>
                                 <InputLabel>First Name</InputLabel>
-                                <Input type="email" value={fName} onChange={evt => this.setState({ fName: evt.target.value })} />
+                                <Input type="email" className="login-field" value={fName} onChange={evt => this.setState({ fName: evt.target.value })} />
                             </FormControl>
                             <FormControl>
                                 <InputLabel>Last Name</InputLabel>
-                                <Input type="email" value={lName} onChange={evt => this.setState({ lName: evt.target.value })} />
+                                <Input type="email" className="login-field" value={lName} onChange={evt => this.setState({ lName: evt.target.value })} />
                             </FormControl>
                             <FormControl>
                                 <InputLabel>Email</InputLabel>
-                                <Input type="email" value={email} onChange={evt => this.setState({ email: evt.target.value })} />
+                                <Input type="email" className="login-field" value={email} onChange={evt => this.setState({ email: evt.target.value })} />
                             </FormControl>
                             <FormControl>
                                 <InputLabel>Password</InputLabel>
-                                <Input type="password" value={password} onChange={evt => this.setState({ password: evt.target.value })} />
+                                <Input type="password" className="login-field" value={password} onChange={evt => this.setState({ password: evt.target.value })} />
                             </FormControl>
-                            <Input type="submit" value="Register" onClick={this.performRegistration} />
                         </FormGroup>
                     </CardContent>
+                    <CardActions className="login-actions">
+                        <Button onClick={this.performRegistration}>
+                            REGISTER
+                        </Button>
+                        <div className="login-switch">
+                            <span>Already have an account?</span>
+                            <Button onClick={() => this.performRedirect('login')}>
+                                Login instead
+                            </Button>
+                        </div>
+                    </CardActions>
                 </Card>
             </div>
         )
