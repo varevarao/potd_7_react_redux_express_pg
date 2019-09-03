@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Paper, List, ListItem, ListItemText } from '@material-ui/core';
+import { Avatar, List, ListItem, ListItemIcon, ListItemText, Paper } from '@material-ui/core';
+import React, { Component } from 'react';
+import '../styles/components/cart.scss';
 
 export default class Cart extends Component {
     render() {
@@ -16,8 +17,15 @@ export default class Cart extends Component {
                         cart.map((item, index) => {
                             const product = productMap[item.productId];
                             return (
-                                <ListItem key={`checkout-list-${index}`}>
+                                <ListItem key={`checkout-list-${index}`} className="cart-item">
+                                    <ListItemIcon>
+                                        <Avatar src="/logo192.png" />
+                                    </ListItemIcon>
                                     <ListItemText>{product.title}</ListItemText>
+                                    <ListItemText secondary={`from ${product.userEmail}`}></ListItemText>
+                                    <div className="line-end">
+                                        <ListItemText>x {item.quantity}</ListItemText>
+                                    </div>
                                 </ListItem>
                             )
                         })

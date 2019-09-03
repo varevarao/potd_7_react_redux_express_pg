@@ -1,12 +1,13 @@
 const products = require('../model/products');
 
-const mapProductModel = ({ id, user_id, title, description, quantity }) => (
+const mapProductModel = ({ id, user_id, title, description, quantity, user_email }) => (
     {
         id,
         title,
         description,
         quantity,
-        userId: user_id
+        userId: user_id,
+        userEmail: user_email
     }
 )
 

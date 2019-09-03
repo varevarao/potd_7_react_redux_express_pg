@@ -85,11 +85,11 @@ class Checkout extends Component {
             <div className="checkout-container">
                 <Header user={user} />
                 <Grid container justify="space-evenly" spacing={5} className="checkout-content">
-                    <Grid item md={6}>
+                    <Grid item xs={10} md={6}>
                         <p className="checkout-title">Cart</p>
                         <Cart cart={cart} products={products} />
                     </Grid>
-                    <Grid item md={4}>
+                    <Grid item xs={10} md={4}>
                         <p className="checkout-title">Agreement</p>
                         <Bill onSubmit={() => this.onSubmit()} />
                     </Grid>

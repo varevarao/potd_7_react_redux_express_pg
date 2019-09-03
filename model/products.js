@@ -19,7 +19,8 @@ module.exports = {
     fetchID: id => {
         return db.oneOrNone({
             text: `
-                SELECT * FROM products WHERE id = $1
+                SELECT products.*, users.email as user_email FROM products, users 
+                WHERE products.user_id = users.id AND products.id = $1
             `,
             values: [id]
         }).catch(err => {
@@ -29,17 +30,20 @@ module.exports = {
     },
 
     fetchAll: () => {
-        return db.manyOrNone('SELECT * FROM products')
-            .catch(err => {
-                console.error('Error fetching all products', err);
-                return null;
-            });
+        return db.manyOrNone(`
+            SELECT products.*, users.email as user_email FROM products, users 
+            WHERE products.user_id = users.id
+        `).catch(err => {
+            console.error('Error fetching all products', err);
+            return null;
+        });
     },
 
     fetchForUser: userId => {
         return db.manyOrNone({
             text: `
-                SELECT * FROM products WHERE user_id = $1
+                SELECT products.*, users.email as user_email FROM products, users 
+                WHERE products.user_id = users.id AND products.user_id = $1
             `,
             values: [userId]
         }).catch(err => {
