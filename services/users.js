@@ -71,6 +71,8 @@ module.exports = {
                 products: userProducts || [],
                 rentals: userRentals || []
             }
+
+            return profile;
         } else {
             return null;
         }

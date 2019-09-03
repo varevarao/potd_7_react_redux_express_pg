@@ -82,13 +82,13 @@ router.get('/:id', async function (req, res) {
  * }
  */
 router.get('/', async function (req, res) {
-    const products = await products.all();
-    if (!products) {
+    const productList = await products.all();
+    if (!productList) {
         res.status(500);
         res.send({ error: ERRORS.FETCH_FAILED })
     } else {
         res.status(200);
-        res.send({ products });
+        res.send({ products: productList });
     }
 });
 

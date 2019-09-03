@@ -125,14 +125,14 @@ router.post('/close/:id', async function (req, res) {
 router.get('/current', async function (req, res) {
     const { id: userId } = req.user;
 
-    const rentals = await rentals.forUser(userId);
+    const rentalList = await rentals.forUser(userId);
 
-    if (!rentals) {
+    if (!rentalList) {
         res.status(500);
         res.send({ error: ERRORS.FETCH_FAILED });
     } else {
         res.status(200);
-        res.send({ rentals })
+        res.send({ rentals: rentalList })
     }
 });
 
@@ -152,14 +152,14 @@ router.get('/current', async function (req, res) {
 router.get('/product/:id', async function (req, res) {
     const { id: productId } = req.path;
 
-    const rentals = await rentals.forProduct(productId);
+    const rentalList = await rentals.forProduct(productId);
 
-    if (!rentals) {
+    if (!rentalList) {
         res.status(500);
         res.send({ error: ERRORS.FETCH_FAILED });
     } else {
         res.status(200);
-        res.send({ rentals })
+        res.send({ rentals: rentalList })
     }
 });
 

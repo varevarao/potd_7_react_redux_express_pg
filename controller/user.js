@@ -108,7 +108,7 @@ router.get('/profile', async function (req, res) {
 
     // Check if the email is already registered
     const user = await users.getProfile(id);
-    if (!profile) {
+    if (!user) {
         res.status(400);
         res.send({ error: ERRORS.PROFILE_NOT_FOUND })
     } else {
