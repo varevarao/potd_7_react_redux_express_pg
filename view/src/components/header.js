@@ -29,7 +29,8 @@ class Header extends Component {
             <AppBar className="header" position="sticky">
                 <Toolbar>
                     <div className="header-start">
-                        <span className="logo-text">Toolocity</span>
+                        <span className="p1">Toolo</span>
+                        <span className="p2">city</span>
                     </div>
                     <div className="header-end">
                         {!!user && <span className="user-name">{`${user.firstName} ${user.lastName}`}</span>}
@@ -41,9 +42,9 @@ class Header extends Component {
                                 <Button className="action user-checkout" variant="outlined" onClick={onCheckout}>Checkout</Button>
                             }
                             {!!!user &&
-                                <Button className={`action user-register`} variant="text" onClick={() => this.handleProfileAction('register')}>sign up</Button>
+                                <Button className={`action user-register`} variant="contained" onClick={() => this.handleProfileAction('register')}>sign up</Button>
                             }
-                            <Button className={`action user-${!!user ? 'login' : 'logout'}`} variant="outlined" onClick={() => this.handleProfileAction(!!user ? 'logout' : 'login')}>{!!user ? 'sign out' : 'sign in'}</Button>
+                            <Button className={`action user-${!!!user ? 'login' : 'logout'}`} variant="text" onClick={() => this.handleProfileAction(!!user ? 'logout' : 'login')}>{!!user ? 'sign out' : 'Login'}</Button>
                         </div>
                     </div>
                 </Toolbar>

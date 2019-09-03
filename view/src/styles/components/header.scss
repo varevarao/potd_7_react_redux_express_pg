@@ -1,10 +1,29 @@
 .header {
+    background-color: white !important;
+
     .header-start {
         flex: 1;
 
+        font-family: 'Open Sans', sans-serif;
         display: flex;
         align-items: center;
         justify-content: flex-start;
+
+        span {
+            font-size: 1.5rem;
+
+            &.p1 {
+                font-weight: 500;
+                color: white;
+                background-color: green;
+            }
+    
+            &.p2 {
+                font-weight: 900;
+                color: crimson;
+                background-color: transparent;
+            }
+        }
     }
 
     .header-end {
@@ -23,6 +42,16 @@
     .user-actions {
         .action {
             margin-right: 15px;
+        }
+
+        .user-register {
+            font-weight: 700;
+            color: green;
+            background-color: white;
+        }
+
+        .user-login {
+            color: green;
         }
     }
 }

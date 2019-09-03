@@ -1,3 +1,57 @@
 .home-container {
-    
+    .hero {
+        position: relative;
+        min-height: 100vh;
+        background: url('/toolocity-banner.jpg') no-repeat center;
+        background-size: cover;
+
+        > div {
+            position: absolute;
+            top: 10vh;
+            left: 5vw;
+        }
+
+        .hero-text {
+            cursor: default;
+            color: green;
+            font-size: 2rem;
+            font-weight: 500;
+            font-stretch: wider;
+            text-align: left;
+
+            font-family: 'Open Sans', sans-serif;
+
+            :first-child {
+                // font-size: 
+            }
+
+            :nth-child(2) {
+                span {
+                    height: 2rem;
+                    padding-left: 5px;
+                    padding-right: 5px;
+                    font-weight: 900;
+                    color: white;
+                    background-color: crimson;
+                    border-radius: 5px;
+                }
+            }
+        }
+
+        .hero-actions {
+            text-align: left;
+
+            .sign-up {
+                background-color: green !important;
+                color: white;
+                font-weight: 700;
+            }
+
+            .browse {
+                background-color: white !important;
+                color: crimson;
+                font-weight: 700;
+            }
+        }
+    }
 }

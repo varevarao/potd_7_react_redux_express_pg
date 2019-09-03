@@ -13,10 +13,27 @@ class Register extends Component {
             lName: '',
             email: '',
             password: '',
-            error: ''
+            error: '',
+            returnPath: '/dashboard'
         }
 
         this.performRegistration = this.performRegistration.bind(this);
+    }
+
+    componentDidMount() {
+        const loggedIn = AuthenticationService.loggedIn();
+        const { location, history } = this.props;
+
+        let { returnPath } = this.state;
+        if (location && location.state && location.state.from) {
+            returnPath = location.state.from;
+        }
+
+        if (loggedIn) {
+            history.replace(returnPath);
+        } else {
+            this.setState({ returnPath });
+        }
     }
 
     performRegistration() {
