@@ -41,7 +41,7 @@ class Header extends Component {
                                 <Button className="action user-checkout" variant="outlined" onClick={onCheckout}>Checkout</Button>
                             }
                             {!!!user &&
-                                <Button className={`action user-register`} variant="text" onClick={() => this.handleProfileAction('register')}>register</Button>
+                                <Button className={`action user-register`} variant="text" onClick={() => this.handleProfileAction('register')}>sign up</Button>
                             }
                             <Button className={`action user-${!!user ? 'login' : 'logout'}`} variant="outlined" onClick={() => this.handleProfileAction(!!user ? 'logout' : 'login')}>{!!user ? 'sign out' : 'sign in'}</Button>
                         </div>
