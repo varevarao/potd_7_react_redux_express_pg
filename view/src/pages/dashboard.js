@@ -52,7 +52,6 @@ export default class Dashboard extends Component {
     render() {
         const { user, products, rentals } = this.state;
 
-        console.log(this.state);
         return (
             <div className="dashboard-container">
                 <Header

@@ -19,7 +19,7 @@ module.exports = {
     fetchForProduct: productId => {
         return db.manyOrNone({
             text: `
-                SELECT * FROM rentals WHERE product_id = $1
+                SELECT rentals.*, users.email FROM rentals, users WHERE rentals.user_id = users.id AND rentals.product_id = $1
             `,
             values: [productId]
         }).catch(err => {
@@ -31,7 +31,7 @@ module.exports = {
     fetchForUser: userId => {
         return db.manyOrNone({
             text: `
-                SELECT * FROM rentals WHERE user_id = $1
+                SELECT rentals.*, users.email FROM rentals, users WHERE rentals.user_id = users.id AND rentals.user_id = $1
             `,
             values: [userId]
         }).catch(err => {

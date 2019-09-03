@@ -23,7 +23,7 @@ class Header extends Component {
     render() {
         const { user, rentals, onCreate, onCheckout } = this.props;
         return (
-            <AppBar className="header" position="fixed">
+            <AppBar className="header" position="sticky">
                 <Toolbar>
                     <div className="header-start">
                         <span className="logo-text">Toolocity</span>

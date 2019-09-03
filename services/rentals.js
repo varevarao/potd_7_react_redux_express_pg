@@ -1,13 +1,14 @@
 const rentals = require('../model/rentals');
 const products = require('../model/products');
 
-const mapRentalModel = ({ id, product_id, user_id, quantity, status }) => (
+const mapRentalModel = ({ id, product_id, user_id, user_email, quantity, status }) => (
     {
         id,
         quantity,
         status,
         userId: user_id,
-        productId: product_id
+        productId: product_id,
+        userEmail: user_email
     }
 )
 
