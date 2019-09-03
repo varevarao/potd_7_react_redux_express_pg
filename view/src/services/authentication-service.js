@@ -2,7 +2,7 @@ import decode from 'jwt-decode';
 
 class _AuthenticationService {
     constructor() {
-        this.domain = '/api';
+        this.domain = (process.env.REACT_APP_API_HOST || '') + '/api';
     }
 
     authRequest(path, bodyJSON) {
@@ -14,7 +14,7 @@ class _AuthenticationService {
             return Promise.resolve(res);
         }).catch(err => {
             console.error(err);
-            return false;
+            return this._handleError(err);
         });
     }
 
@@ -95,6 +95,19 @@ class _AuthenticationService {
         })
             .then(this._checkStatus)
             .then(response => response.json())
+    }
+
+    _handleError(err) {
+        // Extracts and returns a rejected promise, with the error message (if any)
+        if (!!err.response) {
+            const { response } = err;
+            const json = response.json();
+
+            if(json) return Promise.reject(json.message);
+            else return Promise.reject(response.statusText);
+        }
+
+        return Promise.reject(err);
     }
 
     _checkStatus(response) {
