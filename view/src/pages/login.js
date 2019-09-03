@@ -11,22 +11,39 @@ class Login extends Component {
         this.state = {
             email: '',
             password: '',
-            error: ''
+            error: '',
+            returnPath: '/dashboard'
         }
 
         this.performLogin = this.performLogin.bind(this);
     }
 
     performLogin() {
-        const { email, password } = this.state;
+        const { email, password, returnPath } = this.state;
 
         AuthenticationService.login(email, password)
             .then(() => {
-                const { location, history } = this.props;
-                history.push(location && location.state && location.state.from ? location.state.from : '/dashboard');
+                const { history } = this.props;
+                history.push(returnPath);
             }).catch(error => {
                 this.setState({ error })
             });
+    }
+
+    componentDidMount() {
+        const loggedIn = AuthenticationService.loggedIn();
+        const { location, history } = this.props;
+
+        let { returnPath } = this.state;
+        if (location && location.state && location.state.from) {
+            returnPath = location.state.from;
+        }
+
+        if(loggedIn) {
+            history.replace(returnPath);
+        } else {
+            this.setState({ returnPath });
+        }
     }
 
     render() {

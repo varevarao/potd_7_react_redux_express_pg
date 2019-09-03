@@ -1,5 +1,15 @@
 const products = require('../model/products');
 
+const mapProductModel = ({ id, user_id, title, description, quantity }) => (
+    {
+        id,
+        title,
+        description,
+        quantity,
+        userId: user_id
+    }
+)
+
 module.exports = {
     createNew: async metaData => {
         const { userId, title, description, quantity } = metaData;
@@ -26,18 +36,28 @@ module.exports = {
 
     forUser: async userId => {
         const userProducts = await products.fetchForUser(userId);
-        if(!!userProducts) {
-            return userProducts;
+        if (!!userProducts) {
+            return userProducts.map(mapProductModel);
         } else {
             return [];
         }
     },
 
     find: async id => {
-        return await products.fetchID(id);
+        const product = await products.fetchID(id);
+        if (!!product) {
+            return mapProductModel(product);
+        }
+
+        return null;
     },
 
     all: async () => {
-        return await products.fetchAll();
+        const productList = await products.fetchAll();
+        if (!!productList) {
+            return productList.map(mapProductModel);
+        }
+
+        return null;
     }
 }

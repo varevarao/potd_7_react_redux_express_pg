@@ -1,0 +1,28 @@
+.header {
+    .header-start {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .header-end {
+        flex: 1;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        .user-name {
+            margin-right: 15px;
+            cursor: default;
+        }
+    }
+
+    .user-actions {
+        .action {
+            margin-right: 15px;
+        }
+    }
+}

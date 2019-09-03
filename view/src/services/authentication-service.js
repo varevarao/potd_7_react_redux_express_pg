@@ -72,7 +72,7 @@ class _AuthenticationService {
 
     getUser() {
         // Using jwt-decode npm package to decode the token
-        return decode(this.getToken());
+        return this.loggedIn() ? decode(this.getToken()) : null;
     }
 
 

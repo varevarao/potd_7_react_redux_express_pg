@@ -1,6 +1,16 @@
 const rentals = require('../model/rentals');
 const products = require('../model/products');
 
+const mapRentalModel = ({ id, product_id, user_id, quantity, status }) => (
+    {
+        id,
+        quantity,
+        status,
+        userId: user_id,
+        productId: product_id
+    }
+)
+
 module.exports = {
     createNew: async ({ userId, productId, quantity }) => {
         const product = await products.fetchID(productId);
@@ -31,7 +41,7 @@ module.exports = {
     forUser: async userId => {
         const userRentals = await rentals.fetchForUser(userId);
         if (!!userRentals) {
-            return userRentals;
+            return userRentals.map(mapRentalModel);
         } else {
             return [];
         }
@@ -40,7 +50,7 @@ module.exports = {
     forProduct: async productId => {
         const productRentals = await rentals.fetchForProduct(productId);
         if (!!productRentals) {
-            return productRentals;
+            return productRentals.map(mapRentalModel);
         } else {
             return [];
         }
@@ -52,5 +62,5 @@ module.exports = {
 
     closeRental: async ({ userId, id }) => {
         return await rentals.updateStatus({ id, userId, status: 'CLOSED' });
-    },
+    }
 }

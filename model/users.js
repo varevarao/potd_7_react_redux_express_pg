@@ -5,8 +5,8 @@ module.exports = {
         return db.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL,
-                firstName VARCHAR(45) NOT NULL,
-                lastName VARCHAR(45) NOT NULL,
+                first_name VARCHAR(45) NOT NULL,
+                last_name VARCHAR(45) NOT NULL,
                 email VARCHAR(45) NOT NULL,
                 password VARCHAR(70) NOT NULL,
                 primary key(id)
@@ -43,7 +43,7 @@ module.exports = {
     insert: ({ firstName, lastName, email, password }) => {
         return db.one({
             text: `
-                INSERT INTO users (firstName, lastName, email, password)
+                INSERT INTO users (first_name, last_name, email, password)
                 VALUES (
                     $1, $2, $3, $4
                 )

@@ -55,7 +55,12 @@ export default class Dashboard extends Component {
         console.log(this.state);
         return (
             <div className="dashboard-container">
-                <Header user={user} />
+                <Header
+                    user={user}
+                    rentals={rentals}
+                    onCreate={this.onCreateProduct}
+                    onCheckout={this.onCheckout}
+                />
                 <Catalogue
                     user={user}
                     products={products}

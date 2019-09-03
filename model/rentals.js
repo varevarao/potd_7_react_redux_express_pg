@@ -5,8 +5,8 @@ module.exports = {
         return db.query(`
             CREATE TABLE IF NOT EXISTS rentals (
                 id SERIAL,
-                productId INTEGER REFERENCES products(id),
-                userId INTEGER REFERENCES users(id),
+                product_id INTEGER REFERENCES products(id),
+                user_id INTEGER REFERENCES users(id),
                 quantity INTEGER NOT NULL,
                 status VARCHAR(20) DEFAULT 'CART',
                 PRIMARY KEY(id)
@@ -19,7 +19,7 @@ module.exports = {
     fetchForProduct: productId => {
         return db.manyOrNone({
             text: `
-                SELECT * FROM rentals WHERE productId = $1
+                SELECT * FROM rentals WHERE product_id = $1
             `,
             values: [productId]
         }).catch(err => {
@@ -31,7 +31,7 @@ module.exports = {
     fetchForUser: userId => {
         return db.manyOrNone({
             text: `
-                SELECT * FROM rentals WHERE userId = $1
+                SELECT * FROM rentals WHERE user_id = $1
             `,
             values: [userId]
         }).catch(err => {
@@ -43,7 +43,7 @@ module.exports = {
     insert: ({ productId, userId, quantity }) => {
         return db.one({
             text: `
-                INSERT INTO rentals (userId, productId, quantity)
+                INSERT INTO rentals (user_id, product_id, quantity)
                 VALUES (
                     $1, $2, $3
                 )
@@ -65,7 +65,7 @@ module.exports = {
             text: `
                 UPDATE rentals
                 SET status = $1
-                WHERE id = $2 AND userId = $3
+                WHERE id = $2 AND user_id = $3
             `,
             values: [status, id, userId]
         }).then(() => {

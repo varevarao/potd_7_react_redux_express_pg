@@ -22,6 +22,13 @@ const validateUserGetToken = async (email, password) => {
     }
 }
 
+const mapUserModel = ({ email, first_name, last_name, password }) => ({
+    email,
+    firstName: first_name,
+    lastName: last_name,
+    password
+})
+
 module.exports = {
     exists: async email => {
         const existing = await users.fetchEmail(email);
@@ -58,7 +65,7 @@ module.exports = {
         const existing = await users.fetchID(id);
 
         if (!!existing) {
-            const { email, firstName, lastName } = existing;
+            const { email, firstName, lastName } = mapUserModel(existing);
 
             // Get the linked data
             const userProducts = await products.fetchForUser(id);

@@ -5,7 +5,7 @@ module.exports = {
         return db.query(`
             CREATE TABLE IF NOT EXISTS products (
                 id SERIAL,
-                userId INTEGER REFERENCES users(id),
+                user_id INTEGER REFERENCES users(id),
                 title VARCHAR(45) NOT NULL,
                 description VARCHAR(500) NOT NULL,
                 quantity INTEGER NOT NULL,
@@ -39,7 +39,7 @@ module.exports = {
     fetchForUser: userId => {
         return db.manyOrNone({
             text: `
-                SELECT * FROM products WHERE userId = $1
+                SELECT * FROM products WHERE user_id = $1
             `,
             values: [userId]
         }).catch(err => {
@@ -51,7 +51,7 @@ module.exports = {
     insert: ({ userId, title, description, quantity }) => {
         return db.one({
             text: `
-                INSERT INTO products (userId, title, description, quantity)
+                INSERT INTO products (user_id, title, description, quantity)
                 VALUES (
                     $1, $2, $3, $4
                 )
