@@ -45,7 +45,7 @@ class Login extends Component {
                                 <InputLabel>Password</InputLabel>
                                 <Input type="password" value={password} onChange={evt => this.setState({ password: evt.target.value })} />
                             </FormControl>
-                            <Input type="submit" onClick={this.performLogin}>Log In</Input>
+                            <Input type="submit" value="Log In" onClick={this.performLogin} />
                         </FormGroup>
                     </CardContent>
                 </Card>
