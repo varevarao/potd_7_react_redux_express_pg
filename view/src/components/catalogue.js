@@ -12,7 +12,7 @@ export default class Catalogue extends Component {
         }
     }
 
-    renderCategoryTab(visible) {
+    renderCategoryTab() {
         const { products, rentals } = this.props;
 
         const activeRentals = rentals
@@ -21,7 +21,7 @@ export default class Catalogue extends Component {
                 acc[curr.productId] = curr;
                 return acc;
             }, {});
-        return !visible ? null : (
+        return (
             <CategoryTab display="grid">
                 {
                     products.map((product, index) => {
@@ -49,7 +49,7 @@ export default class Catalogue extends Component {
         )
     }
 
-    renderRentalsTab(visible) {
+    renderRentalsTab() {
         const { products, rentals } = this.props;
 
         const rentedProducts = products
@@ -58,7 +58,7 @@ export default class Catalogue extends Component {
                 acc[curr.id] = curr;
                 return acc;
             }, {});
-        return !visible ? null : (
+        return (
             <CategoryTab display="list">
                 {
                     rentals.map((rental, index) => {
@@ -74,7 +74,16 @@ export default class Catalogue extends Component {
 
     render() {
         const { activeTab } = this.state;
-
+        const tabs = [
+            {
+                label: "Product Catalogue",
+                render: this.renderCategoryTab.bind(this)
+            },
+            {
+                label: "Your Rentals",
+                render: this.renderRentalsTab.bind(this)
+            },
+        ]
         return (
             <div className="catalogue">
                 <Paper>
@@ -85,13 +94,23 @@ export default class Catalogue extends Component {
                         textColor="secondary"
                         centered
                     >
-                        <Tab label="Product Catalogue" />
-                        <Tab label="Your Rentals" />
+                        {
+                            tabs.map((tab, index) => (
+                                <Tab key={`catalogue-tab-${index}`} label={tab.label} />
+                            ))
+                        }
+
+                        <Tab label="" />
                     </Tabs>
-                    {this.renderCategoryTab(activeTab === 0)}
-                    {this.renderRentalsTab(activeTab === 1)}
+                    {
+                        tabs.map((tab, index) => (
+                            <div key={`catalogue-content-${index}`} className={`tab-content ${activeTab === index ? '' : 'hide'}`}>
+                                {tab.render()}
+                            </div>
+                        ))
+                    }
                 </Paper>
-            </div>
+            </div >
         )
     }
 }
