@@ -1,0 +1,26 @@
+.bill-container {
+    text-align: left;
+    padding: 1rem;
+
+    .bill-label {
+        // text-align: left;
+        font-size: 0.75rem;
+    }
+
+    .agreement {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        background-color: whitesmoke;
+    }
+
+    .agreed {
+        span {
+            font-size: 0.75rem;
+        }
+    }
+
+    .bill-actions {
+        button {
+            width: 100%;
+        }
+    }
+}

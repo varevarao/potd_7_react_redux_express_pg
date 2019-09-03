@@ -1,7 +1,8 @@
-import { Card, CardActionArea, CardContent, ListItemText, Paper, Tab, Tabs } from '@material-ui/core';
+import { ListItemText, Paper, Tab, Tabs } from '@material-ui/core';
 import React, { Component } from 'react';
 import '../styles/components/catalogue.scss';
 import CategoryTab from './category-tab';
+import ProductCard from './product-card';
 
 export default class Catalogue extends Component {
     constructor(props) {
@@ -14,49 +15,52 @@ export default class Catalogue extends Component {
         this.tabs = [
             {
                 label: "Product Catalogue",
-                render: this.renderCategoryTab.bind(this)
+                render: this.renderCategoryTab.bind(this, 'other')
             },
             {
                 label: "Your Rentals",
                 render: this.renderRentalsTab.bind(this)
             },
+            {
+                label: "Your Listings",
+                render: this.renderCategoryTab.bind(this, 'user')
+            },
         ]
     }
 
-    renderCategoryTab() {
-        const { products, rentals } = this.props;
+    renderCategoryTab(type) {
+        const { user, products, cart, onCartChange } = this.props;
 
-        const activeRentals = rentals
-            .filter(rental => rental.status === 'ACTIVE')
-            .reduce((acc, curr) => {
-                acc[curr.productId] = curr;
-                return acc;
-            }, {});
+        const activeCart = cart.reduce((acc, curr) => {
+            acc[curr.productId] = curr;
+            return acc;
+        }, {});
+
+        // Prepare the display list
+        const displayList = products.reduce((result, curr) => {
+            // Filter out current user's products
+            if (type === 'user' && curr.userId === user.id) result.push(curr);
+            // Filter out other user's products
+            if (type === 'other' && curr.userId !== user.id) result.push(curr);
+
+            return result;
+        }, []);
+
         return (
             <CategoryTab display="grid">
                 {
-                    products.map((product, index) => {
-                        const { title, description, id, quantity } = product;
-                        const rental = activeRentals[id];
+                    displayList.map((product, index) => {
+                        const { id } = product;
+                        const { quantity: cartQuantity } = activeCart[id] || { quantity: 0 };
 
                         return (
-                            <Card className="product-card" key={`rental-category-content-${index}`}>
-                                <CardActionArea>
-
-                                </CardActionArea>
-                                <CardContent>
-                                    <h2>{title}</h2>
-                                    <p>{description}</p>
-                                    <p>
-                                        <span>quantity</span>
-                                        <span>{!!rental ? rental.quantity : 0}</span>
-                                    </p>
-                                    <p>
-                                        <span>available</span>
-                                        <span>{quantity}</span>
-                                    </p>
-                                </CardContent>
-                            </Card>
+                            <ProductCard
+                                type={type}
+                                onChange={onCartChange}
+                                key={`rental-category-content-${index}`}
+                                product={product}
+                                cartQuantity={cartQuantity}
+                            />
                         )
                     })
                 }
@@ -79,12 +83,20 @@ export default class Catalogue extends Component {
                     rentals.map((rental, index) => {
                         const rentedProduct = rentedProducts[rental.productId];
                         return (
-                            <ListItemText key={`rental-tab-content-${index}`} primary={rentedProduct.title} secondary={`from ${rental.userEmail}`} />
+                            <ListItemText
+                                key={`rental-tab-content-${index}`}
+                                primary={rentedProduct.title}
+                                secondary={`from ${rental.userEmail}`}
+                            />
                         )
                     })
                 }
             </CategoryTab>
         )
+    }
+
+    renderUserTab() {
+
     }
 
     render() {

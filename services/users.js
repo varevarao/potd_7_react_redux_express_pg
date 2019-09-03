@@ -72,6 +72,7 @@ module.exports = {
             const userRentals = await rentals.fetchForUser(id);
 
             const profile = {
+                id,
                 email,
                 firstName,
                 lastName,

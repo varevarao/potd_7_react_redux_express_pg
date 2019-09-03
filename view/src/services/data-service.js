@@ -6,15 +6,21 @@ class _DataService {
     }
 
     getUserProfile() {
-        return this._dataRequest('user/profile', { method: 'GET' }).then(({ user }) => user);
+        return this._dataRequest('user/profile', {
+            method: 'GET'
+        }).then(({ user }) => user);
     }
 
     getUserRentals() {
-        return this._dataRequest('rental/current', { method: 'GET' }).then(({ rentals }) => rentals);
+        return this._dataRequest('rental/current', {
+            method: 'GET'
+        }).then(({ rentals }) => rentals);
     }
 
     getAllProducts() {
-        return this._dataRequest('product/', { method: 'GET' }).then(({ products }) => products);
+        return this._dataRequest('product/', {
+            method: 'GET'
+        }).then(({ products }) => products);
     }
 
     postNewProduct({ title, description, quantity }) {
@@ -27,6 +33,46 @@ class _DataService {
             }
         }).then(({ product }) => {
             return product;
+        })
+    }
+
+    postNewRental({ productId, quantity }) {
+        return this._dataRequest('rental/create', {
+            method: 'POST',
+            body: {
+                productId,
+                qty: quantity
+            }
+        }).then(({ rental }) => {
+            return rental;
+        })
+    }
+
+    clearCartItem({ id }) {
+        return this._dataRequest(`rental/cart/${id}`, {
+            method: 'POST'
+        }).then(({ done }) => {
+            return done;
+        })
+    }
+
+    activateRental({ id }) {
+        return this._dataRequest(`rental/activate/${id}`, {
+            method: 'POST'
+        }).then(({ rental }) => {
+            return rental;
+        })
+    }
+
+    rentalUpdate({ id, quantity }) {
+        return this._dataRequest(`rental/update/${id}`, {
+            method: 'POST',
+            body: {
+                qty: quantity
+            }
+        }).then(({ rental }) => {
+            console.log(rental);
+            return rental;
         })
     }
 

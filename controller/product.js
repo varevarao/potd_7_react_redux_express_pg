@@ -56,7 +56,7 @@ router.post('/create', async function (req, res) {
  * }
  */
 router.get('/:id', async function (req, res) {
-    const { id } = req.path;
+    const { id } = req.params;
 
     const product = await products.find(id);
     if (!product) {

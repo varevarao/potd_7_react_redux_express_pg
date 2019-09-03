@@ -24,7 +24,7 @@ class Header extends Component {
     }
 
     render() {
-        const { user, rentals, onCreate, onCheckout } = this.props;
+        const { user, cart, onCreate, onCheckout } = this.props;
         return (
             <AppBar className="header" position="sticky">
                 <Toolbar>
@@ -34,10 +34,10 @@ class Header extends Component {
                     <div className="header-end">
                         {!!user && <span className="user-name">{`${user.firstName} ${user.lastName}`}</span>}
                         <div className="user-actions">
-                            {!!user &&
+                            {!!user && !!onCreate &&
                                 <Button className="action new-product" variant="outlined" onClick={onCreate}>New Listing</Button>
                             }
-                            {!!rentals && rentals.length > 0 &&
+                            {!!cart && cart.length > 0 && !!onCheckout &&
                                 <Button className="action user-checkout" variant="outlined" onClick={onCheckout}>Checkout</Button>
                             }
                             {!!!user &&

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import '../styles/pages/dashboard.scss';
-import Header from '../components/header';
 import Catalogue from '../components/catalogue';
-import DataService from '../services/data-service';
+import Header from '../components/header';
 import ProductModal, { PRODUCT_MODAL_TYPE } from '../components/product-modal';
+import DataService from '../services/data-service';
+import '../styles/pages/dashboard.scss';
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -13,7 +13,9 @@ export default class Dashboard extends Component {
             user: null,
             products: [],
             rentals: [],
-            modal: ''
+            cart: [],
+            modal: '',
+            loading: false
         }
 
         this.onCreateProduct = this.onCreateProduct.bind(this);
@@ -33,31 +35,81 @@ export default class Dashboard extends Component {
             DataService.getAllProducts(),
             DataService.getUserRentals()
         ]).then(([user, products, rentals]) => {
-            this.setState({ user, products, rentals });
+            // Split rentals into cart, and others
+            const rentalsMap = rentals.reduce((result, curr) => {
+                if (curr.status === 'CART') result.cart.push(curr);
+                else result.rentals.push(curr);
+
+                return result;
+            }, { rentals: [], cart: [] });
+
+            this.setState({ user, products, ...rentalsMap });
         }).catch(err => {
             console.log(err);
         })
     }
 
+    showLoading(show = true) {
+        this.setState({ loading: show });
+    }
+
     onCreateProduct({ title, description, quantity }) {
+        this.showLoading();
         DataService.postNewProduct({ title, description, quantity })
             .then(savedProduct => {
                 const { products } = this.state;
                 const existing = products.find(product => product.id === savedProduct.id);
 
-                if(existing) products[products.indexOf(existing)] = savedProduct;
+                if (existing) products[products.indexOf(existing)] = savedProduct;
                 else products.push(savedProduct);
 
-                this.setState({ products: [...products], modal: '' });
+                this.setState({ products: [...products], modal: '', loading: false });
+            }).catch(err => {
+                console.error(err);
+                this.showLoading(false);
             })
     }
 
     onCheckout() {
-
+        const { history } = this.props;
+        history.push('/checkout');
     }
 
-    onRentalChange() {
+    onRentalChange(product, quantity) {
+        const { cart } = this.state;
+        const exisiting = cart.find(item => item.productId === product.id);
 
+        this.showLoading();
+
+        if (!exisiting) {
+            // If the cart item doesn't exist, create it
+            DataService.postNewRental({ productId: product.id, quantity })
+                .then(rental => {
+                    this.setState({ cart: [...this.state.cart, rental], loading: false });
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.showLoading(false);
+                });
+        } else if (quantity > 0) {
+            DataService.rentalUpdate({ id: exisiting.id, quantity: quantity })
+                .then(rental => {
+                    this.setState({ cart: [...cart.filter(item => item.id !== rental.id), rental], loading: false });
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.showLoading(false);
+                });
+        } else {
+            DataService.clearCartItem({ id: exisiting.id })
+                .then(done => {
+                    if (done) this.setState({ cart: [...cart.filter(item => item.id !== exisiting.id)], loading: false });
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.showLoading(false);
+                });
+        }
     }
 
     showModal(type) {
@@ -67,23 +119,23 @@ export default class Dashboard extends Component {
     }
 
     render() {
-        const { user, products, rentals, modal } = this.state;
+        const { user, products, rentals, cart, loading, modal } = this.state;
 
         return (
             <div className="dashboard-container">
                 <Header
                     user={user}
-                    rentals={rentals}
+                    cart={cart}
                     onCreate={() => this.showModal(PRODUCT_MODAL_TYPE.NEW)}
                     onCheckout={this.onCheckout}
                 />
                 <Catalogue
                     user={user}
+                    cart={cart}
                     products={products}
                     rentals={rentals}
                     onCreate={() => this.showModal(PRODUCT_MODAL_TYPE.NEW)}
-                    onCheckout={this.onCheckout}
-                    onChange={this.onRentalChange}
+                    onCartChange={this.onRentalChange}
                 />
                 <ProductModal
                     open={!!modal}
@@ -91,6 +143,7 @@ export default class Dashboard extends Component {
                     onClose={() => this.setState({ modal: '' })}
                     onSubmit={this.onCreateProduct}
                 />
+                <div className={`loading-screen ${loading ? '' : 'hide'}`}></div>
             </div>
         )
     }

@@ -12,7 +12,15 @@
         width: 100%;
     }
 
+    .children-grid {
+        margin: 1rem;
+    }
+
     .product-card {
         background-color: whitesmoke;
+
+        .product-actions {
+            justify-content: center;
+        }
     }
 }

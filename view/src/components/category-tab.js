@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import { GridList, GridListTile, List, ListItem } from '@material-ui/core';
+import { Grid, List, ListItem } from '@material-ui/core';
+import React, { Component } from 'react';
 
 export default class CategoryTab extends Component {
     renderChildrenGrid(items) {
         return (
-            <GridList className="children-grid">
+            <Grid container spacing={5} className="children-grid">
                 {
                     items.map((item, index) => (
-                        <GridListTile key={`grid-child-${index}`} className="grid-child">
+                        <Grid item xs={3} key={`grid-child-${index}`} className="grid-child">
                             {item}
-                        </GridListTile>
+                        </Grid>
                     ))
                 }
-            </GridList>
+            </Grid>
         )
     }
 

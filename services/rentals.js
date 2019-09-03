@@ -1,14 +1,15 @@
 const rentals = require('../model/rentals');
 const products = require('../model/products');
 
-const mapRentalModel = ({ id, product_id, user_id, user_email, quantity, status }) => (
+const mapRentalModel = ({ id, product_id, user_id, user_email, quantity, status, created_at }) => (
     {
         id,
         quantity,
         status,
         userId: user_id,
         productId: product_id,
-        userEmail: user_email
+        userEmail: user_email,
+        createdAt: created_at
     }
 )
 
@@ -57,11 +58,59 @@ module.exports = {
         }
     },
 
+    updateQuantity: async ({ id, userId, quantity }) => {
+        return await rentals.updateQuantity({ id, userId, quantity });
+    },
+
+    checkoutCart: async ({ userId }) => {
+        const cart = await rentals.fetchUserCart(userId);
+        if (cart && cart.length) {
+            // TODO
+        } else {
+            return false;
+        }
+    },
+
     activateRental: async ({ userId, id }) => {
-        return await rentals.updateStatus({ id, userId, status: 'ACTIVE' });
+        const rental = await rentals.fetchID(id);
+        if (!!rental) {
+            const product = await products.fetchID(rental.product_id);
+            if (product.quantity >= rental.quantity) {
+                // Update the product
+                await products.updateQuantity({ id: product.id, quantity: product.quantity - rental.quantity });
+                // Then the rental
+                const result = await rentals.updateStatus({ id, userId, status: 'ACTIVE' });
+                return mapRentalModel(result);
+            } else {
+                console.warn('Not engough quantity.');
+                return null;
+            }
+        } else {
+            console.warn('No rental with given ID found: ', id);
+            return null;
+        }
     },
 
     closeRental: async ({ userId, id }) => {
-        return await rentals.updateStatus({ id, userId, status: 'CLOSED' });
+        const rental = await rentals.fetchID(id);
+        if (!!rental) {
+            const product = await products.fetchID(rental.product_id);
+            // Update the product
+            await products.updateQuantity({ id: product.id, quantity: product.quantity + rental.quantity });
+            // Then the rental
+            const result = await rentals.updateStatus({ id, userId, status: 'CLOSED' });
+            return mapRentalModel(result);
+        } else {
+            return false;
+        }
+    },
+
+    removeCartRental: async ({ userId, id }) => {
+        const rental = await rentals.fetchID(id);
+        if (!!rental && rental.status === 'CART') {
+            return await rentals.removeCartRental({ id, userId });
+        } else {
+            return false;
+        }
     }
 }
