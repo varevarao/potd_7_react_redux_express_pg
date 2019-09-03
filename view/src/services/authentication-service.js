@@ -89,6 +89,8 @@ class _AuthenticationService {
             headers['Authorization'] = 'Bearer ' + this.getToken()
         }
 
+        if(typeof options.body === 'object') options.body = JSON.stringify(options.body);
+
         return fetch(url, {
             headers,
             ...options

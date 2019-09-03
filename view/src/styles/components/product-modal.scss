@@ -1,0 +1,38 @@
+.product-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .product-form-container {
+        width: 50vw;
+
+        .form-title {
+            text-align: center;
+        }
+
+        .product-form {
+            div {
+                margin-top: 1rem;
+            }
+        }
+
+        .input-text {
+            input {
+                font-size: 1rem;
+                line-height: 1.2rem;
+                box-sizing: border-box;
+                padding: 1.2rem;
+            }
+        }
+
+        .multiline {
+            margin-top: 1rem;
+            font-size: 1rem;
+            line-height: 1.2rem;
+            padding: 0.6rem 1.2rem;
+
+            border: lightgray 1px solid;
+            border-radius: 5px;
+        }
+    }
+}

@@ -3,6 +3,7 @@ import '../styles/pages/dashboard.scss';
 import Header from '../components/header';
 import Catalogue from '../components/catalogue';
 import DataService from '../services/data-service';
+import ProductModal, { PRODUCT_MODAL_TYPE } from '../components/product-modal';
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -11,7 +12,8 @@ export default class Dashboard extends Component {
         this.state = {
             user: null,
             products: [],
-            rentals: []
+            rentals: [],
+            modal: ''
         }
 
         this.onCreateProduct = this.onCreateProduct.bind(this);
@@ -37,8 +39,17 @@ export default class Dashboard extends Component {
         })
     }
 
-    onCreateProduct() {
+    onCreateProduct({ title, description, quantity }) {
+        DataService.postNewProduct({ title, description, quantity })
+            .then(savedProduct => {
+                const { products } = this.state;
+                const existing = products.find(product => product.id === savedProduct.id);
 
+                if(existing) products[products.indexOf(existing)] = savedProduct;
+                else products.push(savedProduct);
+
+                this.setState({ products: [...products], modal: '' });
+            })
     }
 
     onCheckout() {
@@ -49,24 +60,36 @@ export default class Dashboard extends Component {
 
     }
 
+    showModal(type) {
+        if (type in PRODUCT_MODAL_TYPE) {
+            this.setState({ modal: PRODUCT_MODAL_TYPE[type] });
+        }
+    }
+
     render() {
-        const { user, products, rentals } = this.state;
+        const { user, products, rentals, modal } = this.state;
 
         return (
             <div className="dashboard-container">
                 <Header
                     user={user}
                     rentals={rentals}
-                    onCreate={this.onCreateProduct}
+                    onCreate={() => this.showModal(PRODUCT_MODAL_TYPE.NEW)}
                     onCheckout={this.onCheckout}
                 />
                 <Catalogue
                     user={user}
                     products={products}
                     rentals={rentals}
-                    onCreate={this.onCreateProduct}
+                    onCreate={() => this.showModal(PRODUCT_MODAL_TYPE.NEW)}
                     onCheckout={this.onCheckout}
                     onChange={this.onRentalChange}
+                />
+                <ProductModal
+                    open={!!modal}
+                    variant={modal}
+                    onClose={() => this.setState({ modal: '' })}
+                    onSubmit={this.onCreateProduct}
                 />
             </div>
         )

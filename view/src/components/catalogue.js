@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Paper, Tabs, Tab, Card, CardActionArea, CardContent, ListItemText } from '@material-ui/core';
+import { Card, CardActionArea, CardContent, ListItemText, Paper, Tab, Tabs } from '@material-ui/core';
+import React, { Component } from 'react';
 import '../styles/components/catalogue.scss';
 import CategoryTab from './category-tab';
 
@@ -10,6 +10,17 @@ export default class Catalogue extends Component {
         this.state = {
             activeTab: 0,
         }
+
+        this.tabs = [
+            {
+                label: "Product Catalogue",
+                render: this.renderCategoryTab.bind(this)
+            },
+            {
+                label: "Your Rentals",
+                render: this.renderRentalsTab.bind(this)
+            },
+        ]
     }
 
     renderCategoryTab() {
@@ -25,11 +36,11 @@ export default class Catalogue extends Component {
             <CategoryTab display="grid">
                 {
                     products.map((product, index) => {
-                        const { title, description, id } = product;
+                        const { title, description, id, quantity } = product;
                         const rental = activeRentals[id];
 
                         return (
-                            <Card key={`rental-category-content-${index}`}>
+                            <Card className="product-card" key={`rental-category-content-${index}`}>
                                 <CardActionArea>
 
                                 </CardActionArea>
@@ -39,6 +50,10 @@ export default class Catalogue extends Component {
                                     <p>
                                         <span>quantity</span>
                                         <span>{!!rental ? rental.quantity : 0}</span>
+                                    </p>
+                                    <p>
+                                        <span>available</span>
+                                        <span>{quantity}</span>
                                     </p>
                                 </CardContent>
                             </Card>
@@ -74,20 +89,12 @@ export default class Catalogue extends Component {
 
     render() {
         const { activeTab } = this.state;
-        const tabs = [
-            {
-                label: "Product Catalogue",
-                render: this.renderCategoryTab.bind(this)
-            },
-            {
-                label: "Your Rentals",
-                render: this.renderRentalsTab.bind(this)
-            },
-        ]
+
         return (
             <div className="catalogue">
                 <Paper>
                     <Tabs
+                        className="catalogue-tabs"
                         value={activeTab}
                         onChange={(evt, value) => this.setState({ activeTab: value })}
                         indicatorColor="secondary"
@@ -95,15 +102,13 @@ export default class Catalogue extends Component {
                         centered
                     >
                         {
-                            tabs.map((tab, index) => (
+                            this.tabs.map((tab, index) => (
                                 <Tab key={`catalogue-tab-${index}`} label={tab.label} />
                             ))
                         }
-
-                        <Tab label="" />
                     </Tabs>
                     {
-                        tabs.map((tab, index) => (
+                        this.tabs.map((tab, index) => (
                             <div key={`catalogue-content-${index}`} className={`tab-content ${activeTab === index ? '' : 'hide'}`}>
                                 {tab.render()}
                             </div>

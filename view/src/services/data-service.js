@@ -17,6 +17,19 @@ class _DataService {
         return this._dataRequest('product/', { method: 'GET' }).then(({ products }) => products);
     }
 
+    postNewProduct({ title, description, quantity }) {
+        return this._dataRequest('product/create', {
+            method: 'POST',
+            body: {
+                title,
+                desc: description,
+                qty: quantity
+            }
+        }).then(({ product }) => {
+            return product;
+        })
+    }
+
     _dataRequest(path, options) {
         return AuthenticationService.fetch(`${this.domain}/${path}`, options)
     }
