@@ -8,6 +8,9 @@ class Header extends Component {
     handleProfileAction(action) {
         const { history } = this.props;
         switch (action) {
+            case 'register':
+                history.push('/register');
+                break;
             case 'login':
                 history.push('/login');
                 break;
@@ -36,6 +39,9 @@ class Header extends Component {
                             }
                             {!!rentals && rentals.length > 0 &&
                                 <Button className="action user-checkout" variant="outlined" onClick={onCheckout}>Checkout</Button>
+                            }
+                            {!!!user &&
+                                <Button className={`action user-register`} variant="text" onClick={() => this.handleProfileAction('register')}>register</Button>
                             }
                             <Button className={`action user-${!!user ? 'login' : 'logout'}`} variant="outlined" onClick={() => this.handleProfileAction(!!user ? 'logout' : 'login')}>{!!user ? 'sign out' : 'sign in'}</Button>
                         </div>
