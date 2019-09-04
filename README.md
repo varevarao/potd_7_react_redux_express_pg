@@ -24,8 +24,29 @@ The express app uses a **create-react-app** (by [the facebook team](https://gith
 - Go to your [app dashboard](https://dashboard.heroku.com), and select the app you're using for deployment. In the overview, there would be a tab named, 'Resources', visit that.
 - This tab contains configuration for additional items required by our app (eg database). Under the Add-ons section, type in Postgres, and select the autocompleted option: 'Heroku Postgres'. This requires neither billing set up, nor a credit card. Click 'Provision' on the pop-up, and proceed.
 - This will automatically setup an environment variable named `DATABASE_URL` within the app, which can be used to make the DB connection.
+- Open the `view/package.json` file and add the homepage parameter:
+    ```
+    {
+        ...,
+        "homepage": "https://<YOUR_APP_NAME>.herokuapp.com",
+    }
+    ```
 
 ### App
+**NOTE:** Configuration is required to run the app with the server, and react app being served from specified locations:
+1. Create a `.env` file under the root project directory, add the following variable there:
+    ```
+    DATABASE_URL=postgres://<YOUR DB LOCATION>
+    ```
+2. Create a `.env` file undert the `view/` folder and add the following variable there:
+    ```
+    <!-- If you're using the same server -->
+    REACT_APP_API_HOST=http://locahost:3000
+
+    <!-- If you're using a different server, be sure to allow cross access origin to this server -->
+    REACT_APP_API_HOST=<your server url>
+    ```
+
 This is an npm based build configuration, which uses the `package.json` file to reference the commands, and dependencies to build the app
 - To update dependencies
     ```
