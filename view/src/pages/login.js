@@ -61,7 +61,7 @@ class Login extends Component {
                 </div>
                 <Card className="login-card">
                     <CardContent>
-                        {!!error && <div className="login-error">Heola{error}</div>}
+                        {!!error && <div className="login-error">{error}</div>}
                         <FormGroup>
                             <FormControl>
                                 <InputLabel>Email</InputLabel>

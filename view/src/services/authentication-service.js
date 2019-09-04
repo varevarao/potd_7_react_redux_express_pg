@@ -101,13 +101,13 @@ class _AuthenticationService {
             .then(response => response.json())
     }
 
-    _handleError(err) {
+    async _handleError(err) {
         // Extracts and returns a rejected promise, with the error message (if any)
         if (!!err.response) {
             const { response } = err;
-            const json = response.json();
+            const json = await response.json();
 
-            if(json) return Promise.reject(json.message);
+            if(json) return Promise.reject(json.error);
             else return Promise.reject(response.statusText);
         }
 

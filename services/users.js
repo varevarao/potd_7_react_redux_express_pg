@@ -1,6 +1,4 @@
 const users = require('../model/users');
-const products = require('../model/products');
-const rentals = require('../model/rentals');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -67,17 +65,11 @@ module.exports = {
         if (!!existing) {
             const { email, firstName, lastName } = mapUserModel(existing);
 
-            // Get the linked data
-            const userProducts = await products.fetchForUser(id);
-            const userRentals = await rentals.fetchForUser(id);
-
             const profile = {
                 id,
                 email,
                 firstName,
-                lastName,
-                products: userProducts || [],
-                rentals: userRentals || []
+                lastName
             }
 
             return profile;
