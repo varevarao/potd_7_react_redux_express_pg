@@ -25,16 +25,39 @@
 
     .user-actions {
         .action {
+            font-weight: 700;
             margin-right: 15px;
+
+            :first-child {
+                margin-right: 5px;
+                margin-left: 5px;
+            }
         }
 
         .user-register {
-            font-weight: 700;
             color: green;
             background-color: white;
         }
 
         .user-login {
+            color: green;
+        }
+
+        .user-logout {
+            font-weight: 300;
+            font-size: 0.75rem;
+            margin-left: 2rem;
+
+            color: crimson;
+        }
+
+        .new-product {
+            background-color: green;
+            color: white;
+        }
+
+        .user-checkout {
+            background-color: white;
             color: green;
         }
     }

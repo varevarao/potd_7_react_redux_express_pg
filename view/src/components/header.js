@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import '../styles/components/header.scss';
-import { AppBar, Toolbar, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Button, Hidden } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import AuthenticationService from '../services/authentication-service';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faCartArrowDown, faUserPlus, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 class Header extends Component {
     handleProfileAction(action) {
@@ -36,15 +38,35 @@ class Header extends Component {
                         {!!user && <span className="user-name">{`${user.firstName} ${user.lastName}`}</span>}
                         <div className="user-actions">
                             {!!user && !!onCreate &&
-                                <Button className="action new-product" variant="outlined" onClick={onCreate}>New Listing</Button>
+                                <Button className="action new-product" variant="outlined" onClick={onCreate}>
+                                    <FontAwesomeIcon icon={faPlus} />
+                                    <Hidden smDown>
+                                        New Listing
+                                    </Hidden>
+                                </Button>
                             }
                             {!!cart && cart.length > 0 && !!onCheckout &&
-                                <Button className="action user-checkout" variant="outlined" onClick={onCheckout}>Checkout</Button>
+                                <Button className="action user-checkout" variant="outlined" onClick={onCheckout}>
+                                    <FontAwesomeIcon icon={faCartArrowDown} />
+                                    <Hidden smDown>
+                                        Checkout
+                                    </Hidden>
+                                </Button>
                             }
                             {!!!user &&
-                                <Button className={`action user-register`} variant="contained" onClick={() => this.handleProfileAction('register')}>sign up</Button>
+                                <Button className={`action user-register`} variant="contained" onClick={() => this.handleProfileAction('register')}>
+                                    <FontAwesomeIcon icon={faUserPlus} />
+                                    <Hidden smDown>
+                                        sign up
+                                    </Hidden>
+                                </Button>
                             }
-                            <Button className={`action user-${!!!user ? 'login' : 'logout'}`} variant="text" onClick={() => this.handleProfileAction(!!user ? 'logout' : 'login')}>{!!user ? 'sign out' : 'Login'}</Button>
+                            <Button className={`action user-${!!!user ? 'login' : 'logout'}`} variant="text" onClick={() => this.handleProfileAction(!!user ? 'logout' : 'login')}>
+                                <FontAwesomeIcon icon={!!user ? faSignOutAlt : faSignInAlt} />
+                                <Hidden smDown>
+                                    {!!user ? 'sign out' : 'Login'}
+                                </Hidden>
+                            </Button>
                         </div>
                     </div>
                 </Toolbar>

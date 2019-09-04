@@ -71,7 +71,6 @@ class _DataService {
                 qty: quantity
             }
         }).then(({ rental }) => {
-            console.log(rental);
             return rental;
         })
     }

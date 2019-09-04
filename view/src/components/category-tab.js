@@ -1,32 +1,40 @@
-import { Grid, List, ListItem } from '@material-ui/core';
+import { Grid, List, ListItem, Paper } from '@material-ui/core';
 import React, { Component } from 'react';
 
 export default class CategoryTab extends Component {
     renderChildrenGrid(items) {
         return (
-            <Grid container spacing={5} className="children-grid">
-                {
-                    items.map((item, index) => (
-                        <Grid item xs={3} key={`grid-child-${index}`} className="grid-child">
-                            {item}
-                        </Grid>
-                    ))
-                }
+            <Grid container className="children-grid" justify="center">
+                <Grid item container spacing={4} xs={10}>
+                    {
+                        items.map((item, index) => (
+                            <Grid item xs={10} sm={6} md={4} key={`grid-child-${index}`} className="grid-child">
+                                {item}
+                            </Grid>
+                        ))
+                    }
+                </Grid>
             </Grid>
         )
     }
 
     renderChildrenList(items) {
         return (
-            <List className="children-list">
-                {
-                    items.map((item, index) => (
-                        <ListItem key={`list-child-${index}`} className="list-child">
-                            {item}
-                        </ListItem>
-                    ))
-                }
-            </List>
+            <Grid container spacing={4} className="children-grid" justify="center">
+                <Grid item xs={10}>
+                    <Paper>
+                        <List className="children-list">
+                            {
+                                items.map((item, index) => (
+                                    <ListItem key={`list-child-${index}`} className="list-child">
+                                        {item}
+                                    </ListItem>
+                                ))
+                            }
+                        </List>
+                    </Paper>
+                </Grid>
+            </Grid>
         )
     }
 

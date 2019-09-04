@@ -22,19 +22,14 @@ module.exports = {
         // Break out if we don't have availability
         if (product.quantity < quantity) return null;
 
-        const id = await rentals.insert({
+        const rental = await rentals.insert({
             userId,
             productId,
             quantity
         });
 
-        if (!!id) {
-            return {
-                id,
-                userId,
-                productId,
-                quantity
-            }
+        if (!!rental) {
+            return mapRentalModel(rental);
         } else {
             return null;
         }
@@ -59,7 +54,8 @@ module.exports = {
     },
 
     updateQuantity: async ({ id, userId, quantity }) => {
-        return await rentals.updateQuantity({ id, userId, quantity });
+        const updated = await rentals.updateQuantity({ id, userId, quantity });
+        return mapRentalModel(updated);
     },
 
     checkoutCart: async ({ userId }) => {

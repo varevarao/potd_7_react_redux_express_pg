@@ -15,21 +15,15 @@ module.exports = {
     createNew: async metaData => {
         const { userId, title, description, quantity } = metaData;
 
-        const id = await products.insert({
+        const product = await products.insert({
             userId,
             title,
             description,
             quantity
         });
 
-        if (!!id) {
-            return {
-                id,
-                userId,
-                title,
-                description,
-                quantity
-            }
+        if (!!product) {
+            return mapProductModel(product);
         } else {
             return null;
         }

@@ -1,4 +1,4 @@
-import { ListItemText, Paper, Tab, Tabs } from '@material-ui/core';
+import { Avatar, ListItemIcon, ListItemText, Tab, Tabs } from '@material-ui/core';
 import React, { Component } from 'react';
 import '../styles/components/catalogue.scss';
 import CategoryTab from './category-tab';
@@ -18,12 +18,12 @@ export default class Catalogue extends Component {
                 render: this.renderCategoryTab.bind(this, 'other')
             },
             {
-                label: "Your Rentals",
-                render: this.renderRentalsTab.bind(this)
-            },
-            {
                 label: "Your Listings",
                 render: this.renderCategoryTab.bind(this, 'user')
+            },
+            {
+                label: "Your Rentals",
+                render: this.renderRentalsTab.bind(this)
             },
         ]
     }
@@ -81,13 +81,18 @@ export default class Catalogue extends Component {
             <CategoryTab display="list">
                 {
                     rentals.map((rental, index) => {
-                        const rentedProduct = rentedProducts[rental.productId];
+                        const { title, userEmail } = rentedProducts[rental.productId];
                         return (
-                            <ListItemText
-                                key={`rental-tab-content-${index}`}
-                                primary={rentedProduct.title}
-                                secondary={`from ${rental.userEmail}`}
-                            />
+                            <React.Fragment key={`rental-tab-content-${index}`}>
+                                <ListItemIcon>
+                                    <Avatar src="/logo192.png" />
+                                </ListItemIcon>
+                                <ListItemText>{title}</ListItemText>
+                                <div>
+                                    <ListItemText>x {rental.quantity}</ListItemText>
+                                </div>
+                                <ListItemText className="line-end" primary={`${userEmail}`} secondary={new Date(rental.createdAt).toLocaleString()}></ListItemText>
+                            </React.Fragment>
                         )
                     })
                 }
@@ -104,21 +109,21 @@ export default class Catalogue extends Component {
 
         return (
             <div className="catalogue">
-                <Paper>
-                    <Tabs
-                        className="catalogue-tabs"
-                        value={activeTab}
-                        onChange={(evt, value) => this.setState({ activeTab: value })}
-                        indicatorColor="secondary"
-                        textColor="secondary"
-                        centered
-                    >
-                        {
-                            this.tabs.map((tab, index) => (
-                                <Tab key={`catalogue-tab-${index}`} label={tab.label} />
-                            ))
-                        }
-                    </Tabs>
+                <Tabs
+                    className="catalogue-tabs"
+                    value={activeTab}
+                    onChange={(evt, value) => this.setState({ activeTab: value })}
+                    indicatorColor="secondary"
+                    textColor="secondary"
+                    centered
+                >
+                    {
+                        this.tabs.map((tab, index) => (
+                            <Tab key={`catalogue-tab-${index}`} label={tab.label} />
+                        ))
+                    }
+                </Tabs>
+                <div className="catalogue-content">
                     {
                         this.tabs.map((tab, index) => (
                             <div key={`catalogue-content-${index}`} className={`tab-content ${activeTab === index ? '' : 'hide'}`}>
@@ -126,7 +131,7 @@ export default class Catalogue extends Component {
                             </div>
                         ))
                     }
-                </Paper>
+                </div>
             </div >
         )
     }

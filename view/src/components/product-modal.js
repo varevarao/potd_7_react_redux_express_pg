@@ -1,4 +1,6 @@
-import { Button, Card, CardActions, CardContent, FormControl, FormGroup, FormLabel, Input, InputLabel, Modal, OutlinedInput, TextareaAutosize } from '@material-ui/core';
+import { faWindowClose } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Card, CardActions, CardContent, FormControl, FormGroup, FormLabel, Grid, Modal, OutlinedInput, TextareaAutosize } from '@material-ui/core';
 import React, { Component } from 'react';
 import '../styles/components/product-modal.scss';
 
@@ -46,44 +48,57 @@ export default class ProductModal extends Component {
 
     renderProductForm() {
         const { title, description, quantity } = this.state;
+        const { onClose } = this.props;
 
         return (
-            <div className="product-form-container">
-                <Card>
-                    <CardContent>
-                        <h2 className="form-title">New Product Listing</h2>
-                        <FormGroup className="product-form">
-                            <FormControl>
-                                <FormLabel>Title</FormLabel>
-                                <OutlinedInput className="input-text" type="text"
-                                    name="title"
-                                    value={title}
-                                    onChange={this.handleInputChange}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel>Description</FormLabel>
-                                <TextareaAutosize className="multiline" rows={5}
-                                    name="description"
-                                    value={description}
-                                    onChange={this.handleInputChange}
-                                />
-                            </FormControl>
-                            <FormControl>
-                                <InputLabel>Quantity</InputLabel>
-                                <Input type="number"
-                                    name="quantity"
-                                    value={quantity}
-                                    onChange={this.handleInputChange}
-                                />
-                            </FormControl>
-                        </FormGroup>
-                    </CardContent>
-                    <CardActions>
-                        <Button variant="outlined" onClick={this.handleSubmit}>Save</Button>
-                    </CardActions>
-                </Card>
-            </div>
+            <Grid container className="product-form-container" justify="center">
+                <Grid item xs={10} md={6}>
+                    <Card className="modal-card">
+                        <CardContent>
+                            <div className="form-header">
+                                <span className="form-title">New Product Listing</span>
+                                <span onClick={onClose}><FontAwesomeIcon icon={faWindowClose} /></span>
+                            </div>
+                            <FormGroup className="product-form">
+                                <div className="part-1">
+                                    <FormControl className="product-name">
+                                        <FormLabel>Title</FormLabel>
+                                        <OutlinedInput className="input-text" type="text"
+                                            name="title"
+                                            placeholder="My cool power tool"
+                                            value={title}
+                                            onChange={this.handleInputChange}
+                                        />
+                                    </FormControl>
+                                    <FormControl className="product-qty">
+                                        <FormLabel>Quantity</FormLabel>
+                                        <OutlinedInput type="number"
+                                            name="quantity"
+                                            placeholder="all these tools!"
+                                            value={quantity}
+                                            onChange={this.handleInputChange}
+                                        />
+                                    </FormControl>
+                                </div>
+                                <FormControl className="part-2">
+                                    <FormLabel>Description</FormLabel>
+                                    <TextareaAutosize className="multiline" rows={5}
+                                        name="description"
+                                        placeholder="A shot description about the product. This is where you get to state your buyer requirements too."
+                                        value={description}
+                                        onChange={this.handleInputChange}
+                                    />
+                                </FormControl>
+                            </FormGroup>
+                        </CardContent>
+                        <CardActions className="form-actions">
+                            <Button color="secondary" variant="contained" onClick={this.handleSubmit}>
+                                <span>Save</span>
+                            </Button>
+                        </CardActions>
+                    </Card>
+                </Grid>
+            </Grid>
         )
     }
 

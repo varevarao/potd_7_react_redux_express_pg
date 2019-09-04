@@ -6,6 +6,16 @@
 
     .tab-content {
         min-height: 80vh;
+        flex: 1;
+    }
+
+    .catalogue-content {
+        display: flex;
+        justify-content: center;
+
+        .list-child {
+            cursor: default;
+        }
     }
 
     .catalogues-tabs {
@@ -13,14 +23,100 @@
     }
 
     .children-grid {
-        margin: 1rem;
+        margin-top: 1rem;
+    }
+
+    .category-tab {
+        display: flex;
+        justify-content: center;
     }
 
     .product-card {
         background-color: whitesmoke;
 
+        .product-header {
+            padding: 10px;
+            padding-bottom: 5px;
+        }
+
+        .product-content {
+            background-color: white;
+            text-align: left;
+
+            display: flex;
+            flex-direction: column;
+
+            :nth-child(1) {
+                font-size: 1.25rem;
+                font-weight: 900;
+            }
+
+            :nth-child(2) {
+                font-size: 0.875rem;
+                font-weight: 300;
+            }
+        }
+
         .product-actions {
-            justify-content: center;
+            // background-color: white;
+            align-items: stretch;
+            justify-content: space-around;
+
+            :nth-child(1) {
+                flex: 2;
+
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+
+                >span {
+                    flex: 1;
+                    font-size: 0.75rem;
+                    color: gray;
+                }
+
+                >svg {
+                    flex: 1;
+                    color: green;
+                    cursor: pointer;
+                }
+
+                input {
+                    text-align: center;
+                    background-color: white;
+                }
+            }
+
+
+            :nth-child(2) {
+                flex: 1;
+
+                display: flex;
+                justify-content: space-evenly;
+
+                button {
+                    flex: 1;
+
+                    min-width: 2rem;
+                    padding: 0;
+                    font-weight: 900;
+                    border: none;
+
+                    &.cart-add {
+                        background-color: rgba(green, 0.7);
+
+                        svg {
+                            color: white;
+                        }
+                    }
+
+                    &.cart-remove {
+                        svg {
+                            color: crimson;
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ import Header from '../components/header';
 import ProductModal, { PRODUCT_MODAL_TYPE } from '../components/product-modal';
 import DataService from '../services/data-service';
 import '../styles/pages/dashboard.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -49,12 +51,12 @@ export default class Dashboard extends Component {
         })
     }
 
-    showLoading(show = true) {
+    showLoading(show) {
         this.setState({ loading: show });
     }
 
     onCreateProduct({ title, description, quantity }) {
-        this.showLoading();
+        this.showLoading(true);
         DataService.postNewProduct({ title, description, quantity })
             .then(savedProduct => {
                 const { products } = this.state;
@@ -79,7 +81,7 @@ export default class Dashboard extends Component {
         const { cart } = this.state;
         const exisiting = cart.find(item => item.productId === product.id);
 
-        this.showLoading();
+        this.showLoading(true);
 
         if (!exisiting) {
             // If the cart item doesn't exist, create it
@@ -94,7 +96,7 @@ export default class Dashboard extends Component {
         } else if (quantity > 0) {
             DataService.rentalUpdate({ id: exisiting.id, quantity: quantity })
                 .then(rental => {
-                    this.setState({ cart: [...cart.filter(item => item.id !== rental.id), rental], loading: false });
+                    this.setState({ cart: [...cart.filter(item => item.productId !== product.id), rental], loading: false });
                 })
                 .catch(err => {
                     console.error(err);
@@ -103,7 +105,7 @@ export default class Dashboard extends Component {
         } else {
             DataService.clearCartItem({ id: exisiting.id })
                 .then(done => {
-                    if (done) this.setState({ cart: [...cart.filter(item => item.id !== exisiting.id)], loading: false });
+                    if (done) this.setState({ cart: [...cart.filter(item => item.productId !== product.id)], loading: false });
                 })
                 .catch(err => {
                     console.error(err);
@@ -143,7 +145,9 @@ export default class Dashboard extends Component {
                     onClose={() => this.setState({ modal: '' })}
                     onSubmit={this.onCreateProduct}
                 />
-                <div className={`loading-screen ${loading ? '' : 'hide'}`}></div>
+                <div className={`${loading ? '' : 'hide'} loading-screen`}>
+                    <div><FontAwesomeIcon icon={faSpinner} spin size="5x" /></div>
+                </div>
             </div>
         )
     }

@@ -46,12 +46,12 @@ module.exports = {
         const hashed = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
 
         if (hashed) {
-            const done = await users.insert({
+            const user = await users.insert({
                 ...metaData,
                 password: hashed
             })
 
-            if (done) {
+            if (!!user) {
                 return await validateUserGetToken(email, password);
             } else {
                 return null;

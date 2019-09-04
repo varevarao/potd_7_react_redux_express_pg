@@ -4,35 +4,98 @@
     justify-content: center;
 
     .product-form-container {
-        width: 50vw;
+        min-width: 50vw;
+        width: 100%;
 
-        .form-title {
-            text-align: center;
+        outline: none;
+
+        .modal-card {
+            background-color: green;
+
+            .form-actions {
+                justify-content: flex-end;
+
+                button {
+                    flex: 0.4;
+                    color: white;
+                    font-weight: 900;
+                }
+            }
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            .form-title {
+                font-family: 'Open Sans', sans-serif;
+                text-align: center;
+                color: white;
+                font-size: 1.5rem;
+                font-weight: 900;
+            }
+
+            svg {
+                text-align: right;
+                cursor: pointer;
+                color: white;
+                border: none;
+                background-color: firebrick;
+            }
         }
 
         .product-form {
-            div {
-                margin-top: 1rem;
-            }
-        }
+            margin-top: 2rem;
 
-        .input-text {
-            input {
+            >div {
+                margin-top: 2rem;
+
+                input {
+                    font-size: 1rem;
+                    line-height: 1rem;
+                    box-sizing: border-box;
+                    // padding: 1.2rem;
+                    background-color: white;
+                    border-radius: 5px;
+                }
+
+                label {
+                    color: white;
+                    margin-bottom: 1rem;
+                }
+            }
+
+            .part-1 {
+                display: flex;
+                justify-content: space-between;
+
+                .product-name {
+                    flex: 4;
+                    margin-right: 10%;
+                }
+
+                .product-qty {
+                    flex: 1;
+                }
+            }
+
+            .multiline {
                 font-size: 1rem;
                 line-height: 1.2rem;
-                box-sizing: border-box;
-                padding: 1.2rem;
+                padding: 0.6rem 1.2rem;
+
+                border: lightgray 1px solid;
+                border-radius: 5px;
             }
-        }
 
-        .multiline {
-            margin-top: 1rem;
-            font-size: 1rem;
-            line-height: 1.2rem;
-            padding: 0.6rem 1.2rem;
-
-            border: lightgray 1px solid;
-            border-radius: 5px;
+            button {
+                margin-top: 2rem;
+                background-color: whitesmoke;
+                color: green;
+                font-weight: 900;
+                flex: 1;
+            }
         }
     }
 }

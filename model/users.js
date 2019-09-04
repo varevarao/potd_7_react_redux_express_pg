@@ -47,12 +47,9 @@ module.exports = {
                 VALUES (
                     $1, $2, $3, $4
                 )
-                RETURNING id
+                RETURNING *
             `,
             values: [firstName, lastName, email, password]
-        }).then(({ id }) => {
-            // Success
-            return id;
         }).catch(err => {
             console.error('Error inserting new user', err);
             return false;

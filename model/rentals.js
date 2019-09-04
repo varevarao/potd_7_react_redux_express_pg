@@ -72,13 +72,9 @@ module.exports = {
                 VALUES (
                     $1, $2, $3, NOW()
                 )
-                RETURNING id
+                RETURNING *
             `,
             values: [userId, productId, quantity]
-        }).then(({ id }) => {
-
-            // Success
-            return id;
         }).catch(err => {
             console.error('Error inserting new product', err);
             return false;
