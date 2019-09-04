@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 export default class CategoryTab extends Component {
     renderChildrenGrid(items) {
         return (
-            <Grid container className="children-grid" justify="center">
+            <Grid container className="children-grid" justify="center" alignItems="stretch">
                 <Grid item container spacing={4} xs={10}>
                     {
                         items.map((item, index) => (
@@ -22,17 +22,19 @@ export default class CategoryTab extends Component {
         return (
             <Grid container spacing={4} className="children-grid" justify="center" alignItems="stretch">
                 <Grid item xs={10}>
-                    <Paper>
-                        <List className="children-list">
-                            {
-                                items.map((item, index) => (
-                                    <ListItem key={`list-child-${index}`} className="list-child">
-                                        {item}
-                                    </ListItem>
-                                ))
-                            }
-                        </List>
-                    </Paper>
+                    {items && items.length &&
+                        <Paper>
+                            <List className="children-list">
+                                {
+                                    items.map((item, index) => (
+                                        <ListItem key={`list-child-${index}`} className="list-child">
+                                            {item}
+                                        </ListItem>
+                                    ))
+                                }
+                            </List>
+                        </Paper>
+                    }
                 </Grid>
             </Grid>
         )

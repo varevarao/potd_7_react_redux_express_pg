@@ -17,30 +17,43 @@ export default class ProductCard extends Component {
                     <span>{title}</span>
                     <span>{description}</span>
                 </CardContent>
+
                 <CardActions className="product-actions">
-                    <div>
-                        <FontAwesomeIcon icon={faCartPlus} />
-                        <Input type="number" value={cartQuantity} />
-                        <span>/ {quantity}</span>
-                    </div>
-                    <div>
-                        <Button
-                            variant="outlined"
-                            className="cart-add"
-                            disabled={(cartQuantity >= quantity) || (type === 'user')}
-                            onClick={() => onChange(product, cartQuantity + 1)}
-                        >
-                            <FontAwesomeIcon icon={faPlus} />
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            className="cart-remove"
-                            disabled={(cartQuantity <= 0) || (type === 'user')}
-                            onClick={() => onChange(product, cartQuantity - 1)}
-                        >
-                            <FontAwesomeIcon icon={faMinus} />
-                        </Button>
-                    </div>
+                    {type === 'user' ?
+                        (
+                            <>
+                                <span className="sub-text">available: {quantity}</span>
+                            </>
+                        )
+                        :
+                        (
+                            <>
+                                <div>
+                                    <FontAwesomeIcon icon={faCartPlus} />
+                                    <Input type="number" value={cartQuantity} />
+                                    <span>/ {quantity}</span>
+                                </div>
+                                <div>
+                                    <Button
+                                        variant="outlined"
+                                        className="cart-add"
+                                        disabled={(cartQuantity >= quantity) || (type === 'user')}
+                                        onClick={() => onChange(product, cartQuantity + 1)}
+                                    >
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        className="cart-remove"
+                                        disabled={(cartQuantity <= 0) || (type === 'user')}
+                                        onClick={() => onChange(product, cartQuantity - 1)}
+                                    >
+                                        <FontAwesomeIcon icon={faMinus} />
+                                    </Button>
+                                </div>
+                            </>
+                        )
+                    }
                 </CardActions>
             </Card>
         )
