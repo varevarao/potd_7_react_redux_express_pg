@@ -1,4 +1,4 @@
-# Toolcity
+# Project Of The Day #7: React + Redux app, with a local/remote express API server, and Postgres DB
 The app is setup using an **Express.js server**, running at port (process.env.PORT) 300 by default.  
 The express app uses a **create-react-app** (by [the facebook team](https://github.com/facebook/create-react-app)) based app, in order to simplify the process of returning a compiled React.js app, as well as supporting API routes on the same server.
 
