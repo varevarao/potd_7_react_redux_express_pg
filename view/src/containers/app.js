@@ -20,6 +20,7 @@ export default class App extends Component {
             <AuthenticatedRoute exact path="/dashboard" component={Dashboard} />
             <AuthenticatedRoute exact path="/checkout" component={Checkout} />
             <Route path="/" component={Home} />
+            <Route path="" component={Home} />
             {/* Default to a HTTP 404 page */}
             <Route component={NotFound} />
           </Switch>
