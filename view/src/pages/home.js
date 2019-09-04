@@ -24,7 +24,7 @@ class Home extends Component {
                                 for <span> power tools </span>
                             </Grid>
                         </Grid>
-                        <Grid item container xs={12} className="hero-actions">
+                        <Grid item container xs={12} className="hero-actions" alignItems="stretch">
                             <Grid item className="full-width" xs={6} md={2}>
                                 <Button className="sign-up" variant="contained" onClick={() => this.redirectTo('register')}>Sign Up for free</Button>
                             </Grid>

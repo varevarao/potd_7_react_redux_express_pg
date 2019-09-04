@@ -20,7 +20,7 @@ export default class CategoryTab extends Component {
 
     renderChildrenList(items) {
         return (
-            <Grid container spacing={4} className="children-grid" justify="center">
+            <Grid container spacing={4} className="children-grid" justify="center" alignItems="stretch">
                 <Grid item xs={10}>
                     <Paper>
                         <List className="children-list">
