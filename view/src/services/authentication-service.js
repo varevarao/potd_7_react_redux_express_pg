@@ -1,8 +1,10 @@
 import decode from 'jwt-decode';
 
+const DOMAIN = process.env.REACT_APP_API_HOST || ''
+
 class _AuthenticationService {
     constructor() {
-        this.domain = (process.env.REACT_APP_API_HOST || '') + '/api';
+        this.domain = DOMAIN + '/api';
     }
 
     authRequest(path, bodyJSON) {
